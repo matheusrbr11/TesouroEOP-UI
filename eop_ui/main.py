@@ -174,6 +174,24 @@ class AppConfig:
 
 
 # ===========================================================================
+# Ícones desenhados em código (não dependem de arquivos de imagem)
+# ===========================================================================
+
+def _icone_olho(cortado: bool, cor: str = "#666666") -> Image.Image:
+    """Olho (mostrar senha) ou olho cortado (ocultar senha), desenhado em
+    tamanho grande para ficar nítido quando reduzido pelo CTkImage."""
+    from PIL import ImageDraw
+
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    desenho = ImageDraw.Draw(img)
+    desenho.ellipse((4, 16, 60, 48), outline=cor, width=5)
+    desenho.ellipse((23, 23, 41, 41), fill=cor)
+    if cortado:
+        desenho.line((10, 56, 54, 8), fill=cor, width=6)
+    return img
+
+
+# ===========================================================================
 # BaseApp — classe base com toda a infraestrutura de UI
 # ===========================================================================
 
@@ -385,6 +403,29 @@ class BaseApp(ctk.CTk):
         lbl.pack(pady=pady)
         return lbl
 
+    def add_password_toggle(self, entry: ctk.CTkEntry) -> ctk.CTkButton:
+        """
+        Coloca, dentro do campo de senha, o botão de olho que alterna entre
+        mostrar e ocultar o que foi digitado. O campo deve ter sido criado com
+        ``show="*"``. Usado pela tela de login.
+        """
+        icone_mostrar = ctk.CTkImage(_icone_olho(cortado=False), size=(18, 18))
+        icone_ocultar = ctk.CTkImage(_icone_olho(cortado=True), size=(18, 18))
+        mascara = entry.cget("show") or "*"
+
+        def alternar():
+            visivel = entry.cget("show") == ""
+            entry.configure(show=mascara if visivel else "")
+            botao.configure(image=icone_mostrar if visivel else icone_ocultar)
+
+        botao = ctk.CTkButton(
+            entry, image=icone_mostrar, text="", width=26, height=26,
+            fg_color=entry.cget("fg_color"), hover_color="#e6e6e6",
+            command=alternar,
+        )
+        botao.place(relx=1.0, rely=0.5, x=-6, anchor="e")
+        return botao
+
     # =======================================================================
     # TELA DE LOGIN
     # =======================================================================
@@ -453,6 +494,7 @@ class BaseApp(ctk.CTk):
 
         self._entry_pass = ctk.CTkEntry(self.main_container, width=300, height=40, show="*")
         self._entry_pass.pack(pady=(2, 20))
+        self.add_password_toggle(self._entry_pass)
 
         # Botão de login (desabilitado por padrão)
         self._btn_login = ctk.CTkButton(
