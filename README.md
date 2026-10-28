@@ -9,7 +9,7 @@ Desenvolvida para padronizar e acelerar a criação de ferramentas e automaçõe
 ## ✨ Funcionalidades
 
 * ⚙️ **Configuração Centralizada:** Toda a parametrização visual e de comportamento é feita através de um único objeto (`AppConfig`).
-* 🔐 **Tela de Login Integrada:** Validação automática de campos, suporte a subtítulos de aviso, botão de olho para mostrar/ocultar a senha e callbacks simplificados.
+* 🔐 **Tela de Login Integrada:** Validação automática de campos, suporte a subtítulos de aviso, botão para mostrar/ocultar a senha e callbacks simplificados.
 * 💻 **Tela de Execução:** Interface pronta para rotinas longas, com log de texto em tempo real (com timestamps) e barra de progresso determinada.
 * 🧭 **Navegação e Menus:** Botão de voltar embutido, menu superior nativo (com atalhos para *Sobre* e *Manual de Uso*) e fácil expansão.
 * 🎨 **Design Padronizado:** Cores, tipografia e espaçamentos consistentes, baseados no tema *dark-blue* do CustomTkinter em modo *Light*.
@@ -89,7 +89,7 @@ A janela principal (herda de `ctk.CTk`). Implementa métodos facilitadores:
 * **Telas:** `show_login_frame()`, `show_execution_frame()`, `clear_frame()`.
 * **Feedback Visual:** `update_progress()`, `log()`, `reset_progress()`, `finalize_progress()`.
 * **Modais:** `messagebox_info()`, `messagebox_warning()`, `messagebox_error()`, `messagebox_question()`.
-* **Componentes:** `make_primary_button()`, `make_success_button()`, `make_header_label()`, `add_password_toggle(entry)` (olho de mostrar/ocultar senha em qualquer `CTkEntry` com `show="*"`).
+* **Componentes:** `make_primary_button()`, `make_success_button()`, `make_header_label()`, `add_password_toggle(entry)` (mostrar/ocultar senha em qualquer `CTkEntry` com `show="*"`).
 
 ---
 
